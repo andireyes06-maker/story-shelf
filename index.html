@@ -318,12 +318,18 @@
     margin: 0 auto;
     padding-block: 26px 60px;
   }
+  main.reader.codex-wide {
+    max-width: 1180px;
+  }
   .reader-page {
     background: var(--ground);
     border: 1px solid var(--surface-border);
     border-radius: 8px;
     box-shadow: var(--shadow);
     padding: 30px clamp(18px, 5vw, 44px) 40px;
+  }
+  main.reader.codex-wide .reader-page {
+    padding: 34px clamp(24px, 4vw, 60px) 50px;
   }
 
   .chapter-head { margin-bottom: 30px; }
@@ -420,6 +426,9 @@
   @media (min-width: 760px) {
     .codex-sidebar { display: block; }
   }
+  main.reader.codex-wide .codex-sidebar { flex-basis: 240px; }
+  main.reader.codex-wide .codex-layout { gap: 56px; }
+  main.reader.codex-wide .codex-content { max-width: 760px; }
   .codex-doc-link {
     display: block;
     width: 100%;
@@ -830,7 +839,7 @@
     var seen = {};
     CODEX_DOCS.forEach(function (d) { if (!seen[d.group]) { seen[d.group] = true; groups.push(d.group); } });
 
-    var html = '<main class="reader ura-theme"><div class="reader-page"><article>';
+    var html = '<main class="reader ura-theme codex-wide"><div class="reader-page"><article>';
     html += '<div class="chapter-head"><span class="eyebrow">The Ura · Reference</span><h1>Codex</h1></div>';
     html += '<div class="codex-layout">';
     html += '<nav class="codex-sidebar">';
