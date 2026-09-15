@@ -302,6 +302,15 @@
   }
   .toc-item .toc-chap { font-size: 1.02rem; color: var(--ink); }
   .toc-item[aria-current="true"] .toc-chap { color: var(--accent); }
+  .toc-group-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 16px 0 4px;
+  }
+  .toc-group-label:first-child { margin-top: 0; }
 
   /* ---------- reader (themed via .ura-theme on <main>) ---------- */
   main.reader {
@@ -401,6 +410,73 @@
     line-height: 1.7;
   }
 
+  /* ---------- codex (reference documents) ---------- */
+  .codex-layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+  }
+  .codex-sidebar { display: none; flex: 0 0 200px; position: sticky; top: 20px; }
+  @media (min-width: 760px) {
+    .codex-sidebar { display: block; }
+  }
+  .codex-doc-link {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 5px 0;
+    border: none;
+    border-radius: 0;
+    background: none;
+    font-family: 'Crimson Pro', serif;
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+  }
+  .codex-doc-link:hover { color: var(--ink); border-color: transparent; }
+  .codex-doc-link[aria-current="true"] { color: var(--accent); font-weight: 600; }
+
+  .codex-content { flex: 1; min-width: 0; font-size: var(--reading-size, 1.05rem); line-height: 1.75; }
+  .codex-content h1, .codex-content h2, .codex-content h3, .codex-content h4 {
+    font-family: 'Shippori Mincho', Georgia, serif;
+    text-wrap: balance;
+    margin: 1.5em 0 0.5em;
+    line-height: 1.3;
+  }
+  .codex-content h1 { font-size: 1.55rem; }
+  .codex-content h2 { font-size: 1.3rem; }
+  .codex-content h3 { font-size: 1.08rem; }
+  .codex-content h4 { font-size: 0.98rem; color: var(--ink-soft); }
+  .codex-content > *:first-child { margin-top: 0; }
+  .codex-content p { margin: 0 0 1em; }
+  .codex-content ul, .codex-content ol { margin: 0 0 1em; padding-left: 1.3em; }
+  .codex-content li { margin-bottom: 0.4em; }
+  .codex-content hr { border: none; border-top: 1px solid var(--line); margin: 2em 0; }
+  .codex-content strong { color: var(--ink); }
+  .codex-content a { color: var(--accent); }
+  .codex-content code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85em;
+    background: var(--surface);
+    padding: 0.15em 0.35em;
+    border-radius: 3px;
+  }
+  .codex-content pre {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    padding: 12px 14px;
+    overflow-x: auto;
+    margin: 0 0 1.3em;
+  }
+  .codex-content pre code { background: none; padding: 0; font-size: 0.76rem; line-height: 1.55; white-space: pre; }
+  .codex-content blockquote {
+    border-left: 3px solid var(--accent);
+    margin: 0 0 1.2em;
+    padding: 2px 0 2px 16px;
+    color: var(--ink-soft);
+  }
+  .codex-loading { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--ink-faint); }
+
   @media (max-width: 480px) {
     header .story-sub { display: none; }
     .chapter-head h1 { font-size: 1.7rem; }
@@ -433,8 +509,23 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
 <script>
 (function () {
+  var CODEX_DOCS = [
+    { group: "Start Here", slug: "project-index", title: "Project Index", file: "codex/project-index.md" },
+    { group: "World", slug: "world-bible", title: "World Bible", file: "codex/world-bible.md" },
+    { group: "World", slug: "characters", title: "Characters", file: "codex/characters.md" },
+    { group: "World", slug: "magic-and-system", title: "Magic & System", file: "codex/magic-and-system.md" },
+    { group: "World", slug: "continuity-and-mysteries", title: "Continuity & Mysteries", file: "codex/continuity-and-mysteries.md" },
+    { group: "Craft", slug: "craft-rulebook", title: "Writing Rulebook", file: "codex/craft-rulebook.md" },
+    { group: "Story Planning", slug: "saga-architecture", title: "Saga Architecture", file: "codex/saga-architecture.md" },
+    { group: "Story Planning", slug: "arc-01-plan", title: "Arc 1 Plan", file: "codex/arc-01-plan.md" },
+    { group: "Story Planning", slug: "arc-01-cast", title: "Arc 1 Cast", file: "codex/arc-01-cast.md" },
+    { group: "Story Planning", slug: "chapter-outline", title: "Chapter Outline", file: "codex/chapter-outline.md" },
+    { group: "Process", slug: "prompting-rules", title: "Prompting Rules", file: "codex/prompting-rules.md" }
+  ];
+  var codexCache = {};
   var STORIES = {
     ura: {
       slug: "ura",
@@ -554,7 +645,8 @@
   var storySub = document.getElementById('storySub');
   var readerControls = document.getElementById('readerControls');
 
-  var state = { view: 'home', story: null, chapter: 0 };
+  var state = { view: 'home', story: null, chapter: 0, codexDoc: null };
+  var contentsBtnEl = document.getElementById('contentsBtn');
 
   function loadState() {
     try {
@@ -591,8 +683,30 @@
     state.story = slug;
     state.chapter = savedChapterFor(slug);
     readerControls.hidden = false;
+    contentsBtnEl.textContent = 'Contents';
     storySub.textContent = 'Reading — ' + story.label;
     renderReader();
+  }
+
+  function openCodex() {
+    state.view = 'codex';
+    state.story = null;
+    if (!state.codexDoc) {
+      try {
+        var saved = localStorage.getItem('shelf-codex-doc');
+        state.codexDoc = (saved && CODEX_DOCS.some(function (d) { return d.slug === saved; })) ? saved : 'project-index';
+      } catch (e) { state.codexDoc = 'project-index'; }
+    }
+    readerControls.hidden = false;
+    contentsBtnEl.textContent = 'Docs';
+    storySub.textContent = 'Reference — The Ura';
+    renderCodex();
+  }
+
+  function selectCodexDoc(slug) {
+    state.codexDoc = slug;
+    try { localStorage.setItem('shelf-codex-doc', slug); } catch (e) {}
+    renderCodex();
   }
 
   function renderHome() {
@@ -610,12 +724,19 @@
     html += '<p>Stories in progress, kept somewhere you can actually get back to from your phone.</p>';
     html += '</div>';
     html += '<div class="shelf">';
-    html += '<button class="story-card ura-theme" data-slug="' + story.slug + '">';
+    html += '<button class="story-card ura-theme" data-kind="story" data-slug="' + story.slug + '">';
     html += '<span class="card-label">Story</span>';
     html += '<span class="card-title">' + story.label + '</span>';
     html += '<span class="card-blurb">' + story.blurb + '</span>';
     html += '<span class="card-meta">' + story.metaLine + ' · ' + story.chapters.length + ' chapters</span>';
     html += '<span class="card-cta">' + cta + '</span>';
+    html += '</button>';
+    html += '<button class="story-card ura-theme" data-kind="codex">';
+    html += '<span class="card-label">Reference</span>';
+    html += '<span class="card-title">The Ura — Codex</span>';
+    html += '<span class="card-blurb">World Bible, magic system, craft rules, and the story’s own planning documents — the backbone behind the prose.</span>';
+    html += '<span class="card-meta">' + CODEX_DOCS.length + ' documents</span>';
+    html += '<span class="card-cta">Browse →</span>';
     html += '</button>';
     html += '</div>';
     html += '<div class="shelf-empty-note">More stories land here as they’re written.</div>';
@@ -623,8 +744,66 @@
     app.innerHTML = html;
 
     app.querySelectorAll('.story-card').forEach(function (card) {
-      card.addEventListener('click', function () { openStory(card.getAttribute('data-slug')); });
+      card.addEventListener('click', function () {
+        if (card.getAttribute('data-kind') === 'codex') { openCodex(); }
+        else { openStory(card.getAttribute('data-slug')); }
+      });
     });
+  }
+
+  function renderCodex() {
+    var groups = [];
+    var seen = {};
+    CODEX_DOCS.forEach(function (d) { if (!seen[d.group]) { seen[d.group] = true; groups.push(d.group); } });
+
+    var html = '<main class="reader ura-theme"><div class="reader-page"><article>';
+    html += '<div class="chapter-head"><span class="eyebrow">The Ura · Reference</span><h1>Codex</h1></div>';
+    html += '<div class="codex-layout">';
+    html += '<nav class="codex-sidebar">';
+    groups.forEach(function (g) {
+      html += '<div class="toc-group-label">' + g + '</div>';
+      CODEX_DOCS.filter(function (d) { return d.group === g; }).forEach(function (d) {
+        html += '<button class="codex-doc-link" data-slug="' + d.slug + '" aria-current="' + (d.slug === state.codexDoc ? 'true' : 'false') + '">' + d.title + '</button>';
+      });
+    });
+    html += '</nav>';
+    html += '<div class="codex-content" id="codexContent"><p class="codex-loading">Loading…</p></div>';
+    html += '</div>';
+    html += '<div class="end-note">Reference material — synced from the project’s own planning documents. Rendered client-side; large documents may take a moment on a slow connection.</div>';
+    html += '</article></div></main>';
+    app.innerHTML = html;
+
+    app.querySelectorAll('.codex-doc-link').forEach(function (btn) {
+      btn.addEventListener('click', function () { selectCodexDoc(btn.getAttribute('data-slug')); });
+    });
+
+    loadCodexDoc(state.codexDoc, document.getElementById('codexContent'));
+    renderOverlayList();
+    window.scrollTo(0, 0);
+  }
+
+  function loadCodexDoc(slug, targetEl) {
+    var doc = CODEX_DOCS.filter(function (d) { return d.slug === slug; })[0];
+    if (!doc || !targetEl) return;
+    if (codexCache[slug]) {
+      targetEl.innerHTML = codexCache[slug];
+      return;
+    }
+    fetch(doc.file)
+      .then(function (r) {
+        if (!r.ok) throw new Error('HTTP ' + r.status);
+        return r.text();
+      })
+      .then(function (md) {
+        var html = (window.marked && window.marked.parse) ? window.marked.parse(md) : '<p class="codex-loading">Markdown renderer failed to load.</p>';
+        codexCache[slug] = html;
+        if (state.view === 'codex' && state.codexDoc === slug) targetEl.innerHTML = html;
+      })
+      .catch(function (err) {
+        if (state.view === 'codex' && state.codexDoc === slug) {
+          targetEl.innerHTML = '<p class="codex-loading">Could not load this document (' + err.message + ').</p>';
+        }
+      });
   }
 
   function renderReader() {
@@ -656,23 +835,42 @@
     if (prevBtn) prevBtn.addEventListener('click', function () { goToChapter(state.chapter - 1); });
     if (nextBtn) nextBtn.addEventListener('click', function () { goToChapter(state.chapter + 1); });
 
-    renderToc();
+    renderOverlayList();
     saveChapterFor(state.story, state.chapter);
     window.scrollTo(0, 0);
   }
 
-  function renderToc() {
-    var story = STORIES[state.story];
+  function renderOverlayList() {
     tocList.innerHTML = '';
-    if (!story) return;
-    story.chapters.forEach(function (ch, i) {
-      var btn = document.createElement('button');
-      btn.className = 'toc-item';
-      btn.setAttribute('aria-current', i === state.chapter ? 'true' : 'false');
-      btn.innerHTML = '<span class="toc-movement">' + ch.movement + '</span><span class="toc-chap">' + ch.title + '</span>';
-      btn.addEventListener('click', function () { goToChapter(i); closeOverlay(); });
-      tocList.appendChild(btn);
-    });
+    if (state.view === 'reader') {
+      var story = STORIES[state.story];
+      if (!story) return;
+      story.chapters.forEach(function (ch, i) {
+        var btn = document.createElement('button');
+        btn.className = 'toc-item';
+        btn.setAttribute('aria-current', i === state.chapter ? 'true' : 'false');
+        btn.innerHTML = '<span class="toc-movement">' + ch.movement + '</span><span class="toc-chap">' + ch.title + '</span>';
+        btn.addEventListener('click', function () { goToChapter(i); closeOverlay(); });
+        tocList.appendChild(btn);
+      });
+    } else if (state.view === 'codex') {
+      var lastGroup = null;
+      CODEX_DOCS.forEach(function (d) {
+        if (d.group !== lastGroup) {
+          var label = document.createElement('div');
+          label.className = 'toc-group-label';
+          label.textContent = d.group;
+          tocList.appendChild(label);
+          lastGroup = d.group;
+        }
+        var btn = document.createElement('button');
+        btn.className = 'toc-item';
+        btn.setAttribute('aria-current', d.slug === state.codexDoc ? 'true' : 'false');
+        btn.innerHTML = '<span class="toc-chap">' + d.title + '</span>';
+        btn.addEventListener('click', function () { selectCodexDoc(d.slug); closeOverlay(); });
+        tocList.appendChild(btn);
+      });
+    }
   }
 
   function goToChapter(i) {
@@ -682,7 +880,7 @@
     renderReader();
   }
 
-  function openOverlay() { if (state.view === 'reader') overlay.hidden = false; }
+  function openOverlay() { if (state.view === 'reader' || state.view === 'codex') overlay.hidden = false; }
   function closeOverlay() { overlay.hidden = true; }
 
   document.getElementById('homeLink').addEventListener('click', function (e) { e.preventDefault(); goHome(); });
