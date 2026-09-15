@@ -157,6 +157,11 @@
     padding: 6px 9px;
   }
   #contentsBtn { padding: 6px 11px; }
+  #widthToggle { padding: 6px 10px; }
+  #widthToggle[aria-pressed="true"] {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
 
   /* ---------- home / shelf ---------- */
   .home {
@@ -321,6 +326,12 @@
   main.reader.codex-wide {
     max-width: 1180px;
   }
+  main.reader.reader-wide {
+    max-width: 900px;
+  }
+  main.reader.reader-wide .reader-page {
+    padding: 34px clamp(24px, 4vw, 60px) 46px;
+  }
   .reader-page {
     background: var(--ground);
     border: 1px solid var(--surface-border);
@@ -332,6 +343,7 @@
     padding: 34px clamp(24px, 4vw, 60px) 50px;
   }
 
+  .chapter-head, .chapter-nav, .end-note { max-width: 720px; margin-inline: auto; }
   .chapter-head { margin-bottom: 30px; }
   .chapter-head .eyebrow { display: block; margin-bottom: 8px; }
   .chapter-head h1 {
@@ -346,6 +358,8 @@
     font-size: var(--reading-size, 1.09rem);
     line-height: 1.8;
     color: var(--ink);
+    max-width: 720px;
+    margin-inline: auto;
   }
   .prose p {
     margin: 0 0 1.15em;
@@ -505,6 +519,7 @@
   <div class="controls" id="readerControls" hidden>
     <button id="sizeDown" aria-label="Smaller text">A&minus;</button>
     <button id="sizeUp" aria-label="Larger text">A+</button>
+    <button id="widthToggle" aria-pressed="false">Wide</button>
     <button id="contentsBtn">Contents</button>
   </div>
 </header>
@@ -730,6 +745,18 @@
 
   var state = { view: 'home', story: null, chapter: 0, codexDoc: null };
   var contentsBtnEl = document.getElementById('contentsBtn');
+  var widthToggleEl = document.getElementById('widthToggle');
+
+  function isReaderWide() {
+    try { return localStorage.getItem('shelf-reader-wide') === '1'; } catch (e) { return false; }
+  }
+  function setReaderWide(v) {
+    try { localStorage.setItem('shelf-reader-wide', v ? '1' : '0'); } catch (e) {}
+  }
+  widthToggleEl.addEventListener('click', function () {
+    setReaderWide(!isReaderWide());
+    if (state.view === 'reader') renderReader();
+  });
 
   function loadState() {
     try {
@@ -767,6 +794,7 @@
     state.chapter = savedChapterFor(slug);
     readerControls.hidden = false;
     contentsBtnEl.textContent = 'Contents';
+    widthToggleEl.hidden = false;
     storySub.textContent = 'Reading — ' + story.label;
     renderReader();
   }
@@ -782,6 +810,7 @@
     }
     readerControls.hidden = false;
     contentsBtnEl.textContent = 'Docs';
+    widthToggleEl.hidden = true;
     storySub.textContent = 'Reference — The Ura';
     renderCodex();
   }
@@ -892,7 +921,9 @@
   function renderReader() {
     var story = STORIES[state.story];
     var ch = story.chapters[state.chapter];
-    var html = '<main class="reader ura-theme"><div class="reader-page"><article>';
+    var wide = isReaderWide();
+    widthToggleEl.setAttribute('aria-pressed', wide ? 'true' : 'false');
+    var html = '<main class="reader ura-theme' + (wide ? ' reader-wide' : '') + '"><div class="reader-page"><article>';
     html += '<div class="chapter-head"><span class="eyebrow">' + ch.movement + '</span><h1>' + ch.title + '</h1></div>';
     html += '<div class="prose">';
     ch.blocks.forEach(function (b) {
