@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Story Shelf</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600;700&family=Crimson+Pro:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Libre+Franklin:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+  /* ---- chrome (site shell) tokens — neutral, shared by every story ---- */
+  :root {
+    --ground: #F5F5F2;
+    --surface: #EAEAE5;
+    --surface-border: #D9D9D2;
+    --ink: #1E1E1B;
+    --ink-soft: #68675E;
+    --ink-faint: #97968C;
+    --accent: #2E5F4E;
+    --accent-soft: #2E5F4E1A;
+    --line: #D9D9D2;
+    --shadow: 0 1px 2px rgba(20, 20, 16, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground: #17181A;
+      --surface: #1F2123;
+      --surface-border: #2C2E30;
+      --ink: #E7E6E1;
+      --ink-soft: #9C9B93;
+      --ink-faint: #6C6B64;
+      --accent: #5FAE93;
+      --accent-soft: #5FAE9322;
+      --line: #2C2E30;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground: #17181A;
+    --surface: #1F2123;
+    --surface-border: #2C2E30;
+    --ink: #E7E6E1;
+    --ink-soft: #9C9B93;
+    --ink-faint: #6C6B64;
+    --accent: #5FAE93;
+    --accent-soft: #5FAE9322;
+    --line: #2C2E30;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  /* ---- The Ura's own theme — scoped, only active inside .ura-theme ---- */
+  .ura-theme {
+    --ground: #ECEEE9;
+    --surface: #E1E4DC;
+    --surface-border: #CBCFC2;
+    --ink: #211F1B;
+    --ink-soft: #5A574F;
+    --ink-faint: #8B8A80;
+    --accent: #9A4321;
+    --accent-soft: #9A432122;
+    --line: #CBCFC2;
+    --shadow: 0 1px 2px rgba(30, 28, 22, 0.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) .ura-theme {
+      --ground: #16171A;
+      --surface: #1F2220;
+      --surface-border: #33362F;
+      --ink: #E9E5D9;
+      --ink-soft: #ABA79A;
+      --ink-faint: #726F63;
+      --accent: #DE8248;
+      --accent-soft: #DE824822;
+      --line: #33362F;
+      --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+    }
+  }
+  :root[data-theme="dark"] .ura-theme {
+    --ground: #16171A;
+    --surface: #1F2220;
+    --surface-border: #33362F;
+    --ink: #E9E5D9;
+    --ink-soft: #ABA79A;
+    --ink-faint: #726F63;
+    --accent: #DE8248;
+    --accent-soft: #DE824822;
+    --line: #33362F;
+    --shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    margin: 0;
+    padding-inline: 20px;
+    font-family: 'Crimson Pro', Georgia, 'Times New Roman', serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; }
+
+  button {
+    font-family: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+    background: none;
+    border: 1px solid var(--surface-border);
+    color: var(--ink-soft);
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover { color: var(--ink); border-color: var(--ink-faint); }
+  button:focus-visible, a:focus-visible, .story-card:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  .eyebrow {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  /* ---------- header (always chrome, never themed) ---------- */
+  header {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-block: 20px 12px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    border-bottom: 1px solid var(--line);
+  }
+  header .title-block { display: flex; flex-direction: column; gap: 2px; }
+  header .site-title {
+    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+    text-decoration: none;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  header .story-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  header .controls { display: flex; gap: 6px; align-items: center; }
+  header .controls button {
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    padding: 6px 9px;
+  }
+  #contentsBtn { padding: 6px 11px; }
+
+  /* ---------- home / shelf ---------- */
+  .home {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-block: 40px 60px;
+  }
+  .home-intro { margin-bottom: 34px; }
+  .home-intro .eyebrow { display: block; margin-bottom: 10px; }
+  .home-intro h1 {
+    font-family: 'Libre Franklin', system-ui, sans-serif;
+    font-weight: 700;
+    font-size: 2rem;
+    margin: 0 0 8px;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+  .home-intro p {
+    margin: 0;
+    color: var(--ink-soft);
+    font-size: 1.02rem;
+    max-width: 46ch;
+  }
+
+  .shelf {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media (min-width: 560px) {
+    .shelf { grid-template-columns: 1fr 1fr; }
+  }
+
+  .story-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    text-align: left;
+    width: 100%;
+    background: var(--ground);
+    border: 1px solid var(--surface-border);
+    border-left: 4px solid var(--accent);
+    border-radius: 6px;
+    padding: 20px 20px 18px;
+    box-shadow: var(--shadow);
+    font-family: 'Crimson Pro', serif;
+    transition: transform 0.12s ease;
+  }
+  .story-card:hover { transform: translateY(-1px); }
+  .story-card .card-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+  .story-card .card-title {
+    font-family: 'Shippori Mincho', Georgia, serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--ink);
+  }
+  .story-card .card-blurb {
+    color: var(--ink-soft);
+    font-size: 0.98rem;
+    line-height: 1.55;
+  }
+  .story-card .card-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .story-card .card-cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--accent);
+    margin-top: 4px;
+  }
+
+  .shelf-empty-note {
+    margin-top: 22px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-faint);
+  }
+
+  /* ---------- contents overlay ---------- */
+  #overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(10, 10, 8, 0.45);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 16px;
+    padding-top: 12vh;
+    z-index: 20;
+  }
+  #overlay[hidden] { display: none; }
+  #overlay .panel {
+    background: var(--ground);
+    border: 1px solid var(--surface-border);
+    border-radius: 6px;
+    box-shadow: var(--shadow);
+    max-width: 420px;
+    width: 100%;
+    padding: 18px;
+  }
+  #overlay .panel h2 {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 1rem;
+    margin: 0 0 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  #overlay .panel h2 button { padding: 3px 8px; font-size: 0.9rem; }
+  .toc-item {
+    width: 100%;
+    text-align: left;
+    display: block;
+    padding: 10px 4px;
+    border: none;
+    border-bottom: 1px solid var(--line);
+    border-radius: 0;
+    background: none;
+    font-family: 'Crimson Pro', serif;
+  }
+  .toc-item:last-child { border-bottom: none; }
+  .toc-item .toc-movement {
+    display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.63rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3px;
+  }
+  .toc-item .toc-chap { font-size: 1.02rem; color: var(--ink); }
+  .toc-item[aria-current="true"] .toc-chap { color: var(--accent); }
+
+  /* ---------- reader (themed via .ura-theme on <main>) ---------- */
+  main.reader {
+    max-width: 680px;
+    margin: 0 auto;
+    padding-block: 26px 60px;
+  }
+  .reader-page {
+    background: var(--ground);
+    border: 1px solid var(--surface-border);
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    padding: 30px clamp(18px, 5vw, 44px) 40px;
+  }
+
+  .chapter-head { margin-bottom: 30px; }
+  .chapter-head .eyebrow { display: block; margin-bottom: 8px; }
+  .chapter-head h1 {
+    font-family: 'Shippori Mincho', Georgia, serif;
+    font-weight: 700;
+    font-size: 2.1rem;
+    margin: 0;
+    text-wrap: balance;
+  }
+
+  .prose {
+    font-size: var(--reading-size, 1.09rem);
+    line-height: 1.8;
+    color: var(--ink);
+  }
+  .prose p {
+    margin: 0 0 1.15em;
+    text-wrap: pretty;
+  }
+  .prose p:first-of-type::first-letter {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 2.6em;
+    font-weight: 700;
+    float: left;
+    line-height: 0.85;
+    padding-right: 0.07em;
+    padding-top: 0.06em;
+    color: var(--accent);
+  }
+  .prose em { font-style: italic; }
+
+  .scene-break {
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: 0.6em;
+    font-size: 0.6rem;
+    margin: 2em 0;
+    opacity: 0.75;
+  }
+
+  .system-block {
+    background: var(--surface);
+    border: 1px solid var(--surface-border);
+    border-radius: 4px;
+    padding: 14px 16px;
+    margin: 1.4em 0 1.7em;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 0.82rem;
+    line-height: 1.7;
+    color: var(--ink-soft);
+  }
+  .system-block div { white-space: pre-wrap; }
+
+  .chapter-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .chapter-nav button {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    padding: 9px 13px;
+    flex: 1;
+    max-width: 48%;
+  }
+  .chapter-nav button:disabled { opacity: 0.35; cursor: default; }
+  .chapter-nav button:disabled:hover { border-color: var(--surface-border); color: var(--ink-soft); }
+  .chapter-nav .next { text-align: right; }
+
+  .end-note {
+    margin-top: 30px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    letter-spacing: 0.04em;
+    color: var(--ink-faint);
+    line-height: 1.7;
+  }
+
+  @media (max-width: 480px) {
+    header .story-sub { display: none; }
+    .chapter-head h1 { font-size: 1.7rem; }
+    .prose { font-size: var(--reading-size, 1.03rem); }
+    .reader-page { padding: 22px 16px 30px; border-radius: 6px; }
+    .home-intro h1 { font-size: 1.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="title-block">
+    <a class="site-title" id="homeLink" href="#">Story Shelf</a>
+    <span class="story-sub" id="storySub"></span>
+  </div>
+  <div class="controls" id="readerControls" hidden>
+    <button id="sizeDown" aria-label="Smaller text">A&minus;</button>
+    <button id="sizeUp" aria-label="Larger text">A+</button>
+    <button id="contentsBtn">Contents</button>
+  </div>
+</header>
+
+<div id="app"></div>
+
+<div id="overlay" hidden>
+  <div class="panel">
+    <h2>Contents <button id="closeOverlay" aria-label="Close">&times;</button></h2>
+    <div id="tocList"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  var STORIES = {
+    ura: {
+      slug: "ura",
+      label: "The Ura",
+      blurb: "A charcoal-burner above Yamashiro is Marked wrong, in front of no one who can explain it.",
+      metaLine: "Arc One · Yamashiro",
+      chapters: [
+        {
+          id: 1,
+          movement: "Movement I — The Wrong Eyes",
+          title: "Chapter One",
+          blocks: [
+            {t:"p", x:"Above the treeline the sky held the color of a bruise gone old, clouds moving faster than any wind Kasane could feel on the ground. Lower, the mountain kept its own weather. Mist pooled in the folds of the Black Mountain Belt after dark the way it always did, thick enough tonight that her kiln threw more glow onto it than light through it. Somewhere below all that, hours down a logging path her legs knew better than her eyes did, the valley town would already have its lamps out and its doors shut. She wasn't thinking about the town. She was thinking about the vent."},
+            {t:"p", x:"The northeast one had been breathing wrong for the better part of an hour — a thinner hiss than its partners, a paler curl of smoke where it should have run blue-grey and steady. She crouched by the earth mound with her palm an inch off the clay, reading heat the way another person might read a face, and decided the wood inside had shifted, packed itself tighter against that corner than she'd left it. Not a crisis. A correction. She worked a green stick into the vent mouth, narrowed it by a thumb's width, and waited to see if the smoke agreed with her."},
+            {t:"p", x:"It did, eventually. That was most of what this work was — small corrections, then waiting to be told whether you'd guessed right. She'd been doing it long enough that the waiting itself had stopped feeling like waiting; it was just the shape her nights took, three weeks at a stretch, one hand always half-listening to a fire she couldn't see into. She touched the boundary stone at the corner of her clearing on her way back from the vent, the way she always did passing it in the dark — not devotion, nothing she'd have called prayer if anyone had asked her, just a habit worn into her fingers the same as testing wind with a wetted thumb. The stone was cold. It was always cold. That wasn't a thing she thought about until later."},
+            {t:"p", x:"She was still circling back toward the kiln, mentally rehearsing tomorrow's second correction, when the forest went quiet in a way that had nothing to do with the hour."},
+            {t:"p", x:"It wasn't the ordinary quiet of deep night, when the insects had already worn themselves out and the owls hadn't started. This was quiet the way a held breath is quiet. She noticed it the way she'd notice a vent closing on its own: not as fear first, but as a fact that didn't match the facts around it. No wind through the pines. No settling creak from her own woodpile. Even the kiln's steady exhale seemed to thin out, as if the fire itself were listening."},
+            {t:"p", x:"She straightened, hatchet coming into her hand out of habit rather than intention — she'd carried it every night on this mountain for six years, and her hand reached for it the way it reached for the vent stick, without asking her opinion first."},
+            {t:"p", x:"Downslope from the kiln, past the cordwood stacks, something in the treeline wasn't sitting right. Not a shape. An absence of one — a patch of hillside where the shadows of three close-grown cedars had stopped agreeing with the moonlight throwing them. They doubled instead of falling clean, one shadow a half-step behind where it should have been, like a second tree standing exactly inside the first and not quite matching its lean."},
+            {t:"p", x:"She'd never seen a Rent up close. She'd heard them described by men who worked closer to the response roads, secondhand and already flattened into story by the time it reached her — a tearing sound, a wrongness in the air that made your teeth ache, sometimes light, sometimes nothing at all until something came through it. What she was looking at now didn't roar and didn't flash. It sat in the trees with the patience of something that had already arrived and was in no hurry to announce it."},
+            {t:"p", x:"She knew what it was in under a breath. That part cost her nothing — a Rent was a Rent, whatever it looked like at three in the morning above a mountain nobody with rank had reason to visit. What cost her something was the next thought: *it should be doing something by now.*"},
+            {t:"p", x:"Rents fed, or they closed, or people came and fought whatever fed through them. This one did none of it. It hung there, doubled and silent, the way a coal that should have caught still sits black and unconvincing in a bed of ash — and just like a coal like that, her instinct was not to leave it alone and hope. Her instinct was to get close enough to understand what it was actually doing, because the alternative was standing in the dark not knowing, and not knowing was the one thing sixteen years of burns had taught her not to tolerate. She counted the ground between herself and the treeline the way she'd count a fireline's spread — four strides to the first stack of cordwood, six more past it to open slope, a straight retreat uphill if the thing did anything at all resembling feeding."},
+            {t:"p", x:"Closer, she found one fact she could actually use. The mist stopped clean at the doubled shadow's edge — a line straight enough to lay a plank against, wet ground on her side of it and bone-dry needles on the other, like the night had been cut along a rule instead of a weather pattern. Weather didn't have edges. That was worse than the shadows."},
+            {t:"p", x:"She got exactly four steps past that line before the ground she'd decided to cross stopped being the whole story."},
+            {t:"p", x:"It didn't pull like wind or water. There was no sensation of being taken toward it — only the abrupt, wrongfooted realization that the doubled shadow was no longer downslope of her but everywhere at once, the mist no longer behaving like mist. She had chosen to close the distance. Nothing about what answered her back asked for the same courtesy. Her hatchet came up. It didn't matter."},
+            {t:"p", x:"The pain arrived behind both eyes at once, which some very small, very calm part of her filed away as strange even as the rest of her went down on one knee in the wet leaf litter — she'd have expected one eye, if she'd expected anything, the way every story about Marking she'd half-listened to over the years described it. Instead the pressure came in evenly, both sides, like surfacing too fast from water too deep, her ears popping in sequence with it, first one and then the other. Her mouth had gone dry the way it only did before very bad weather, the kind she could smell three hours out and no amount of preparation ever fully answered. For a half-second her vision came apart into two overlapping pictures of the same hillside that refused to resolve into one — the cedars where they should be, and the cedars a hand's width to the left of where they should be, both true at once, until they weren't, and there was only one hillside again, and it looked wrong in a way she had no word for yet."},
+            {t:"p", x:"The quiet broke. Insects. Wind through the pines, ordinary and unbothered, as if it had never stopped. When she found the doubled shadow again it was gone — no closing crash, no light, nothing but three cedars agreeing with the moonlight the way cedars were supposed to."},
+            {t:"p", x:"Bracketed text arrived behind her eyes rather than in front of them, which was its own kind of wrong — not a sound, not quite a sight, closer to remembering a sentence someone had just said in a room she wasn't in."},
+            {t:"sys", x:["[MARKING CONFIRMED.]","[SUBJECT LOGGED.]","[CLASSIFICATION: PENDING.]"]},
+            {t:"p", x:"She read it twice before she trusted that it wasn't going to say anything else, then spent a long moment doing nothing at all except breathing and being furious at her own hands for shaking around the hatchet's handle. Fear, when it came, always arrived through her hands first, and this time it didn't leave quickly — she had to set the hatchet down flat on a stone and pick it back up twice before her grip stopped betraying her."},
+            {t:"p", x:"She made herself stand. Made herself walk back up to the kiln, because whatever else was true, the burn was still burning, and a burn didn't stop needing tending just because something had happened to the person tending it."},
+            {t:"p", x:"The northeast vent had gone quiet — properly quiet, the kind that meant the fire inside had either settled exactly right or was starving, and she had no way to tell which without watching it longer than she currently had. She crouched by the earth mound the way she had an hour ago, palm an inch off clay, and found she couldn't read it. Not because the heat had changed. Because her eyes wouldn't settle on the smoke — every curl of it came doubled for half a breath, resolved, doubled again, like her sight had picked up the same argument the cedars had just lost."},
+            {t:"p", x:"She pressed the heel of one shaking hand against her eye and felt wet on her fingers when she took it away, dark in the kiln-light, more than a nosebleed's worth. Whatever had reached for her had left something in her that a burn ledger had no column for, and she thought of the ledger specifically in that moment — three weeks of yields and weather notes and buyer names sitting in her pack, ordinary and useless against whatever line she'd need to write for tonight."},
+            {t:"p", x:"The decision, when she made it, didn't feel like a decision so much as an admission of one already made. She walked the mound once, slowly, cataloguing what she could still save and what she couldn't. The southwest stacks would hold another day untended, maybe two, if the weather stayed dry. The northeast corner wouldn't. Left alone past dawn it would either finish wrong — brittle, useless charcoal, unsellable — or catch outright and take the whole load down with it, three weeks of work and the better part of a season's income gone to ash in an afternoon. She closed every vent she had strength left to close, which wouldn't save the burn so much as slow its dying, and understood, plainly, without needing to dress the thought up as anything larger than it was, that she was choosing to lose it. Whatever had happened to her eyes needed people who knew things she didn't, and those people were four hours downhill, not four hours up."},
+            {t:"p", x:"She banked what she could and started down."},
+            {t:"p", x:"The descent took longer than it should have. Not because the path was unfamiliar — she could have walked it blind, and for stretches of it, she realized with a distant, clinical unease, she nearly was, her vision swimming double every time she tried to focus past arm's length. She kept to what her feet remembered and let her eyes stop arguing with her."},
+            {t:"p", x:"Past the second switchback the path ran close along a stretch of old boundary stones, waist-high and moss-fattened, spaced further apart than any wall would need to be — markers more than barriers, the kind every highland child was told not to move and every highland adult had long since stopped asking why. She kept to the downhill side of them out of the same unexamined habit that had her touching the one at her own clearing, and only noticed she'd done it once she was past, which unsettled her more than the doing had. A fox crossed the path ahead of her, unhurried, headed the same direction she was, and didn't glance at her once before the brush took it. Animals fleeing downhill meant something was behind them. She didn't have a rule for an animal simply agreeing with her about which way to go, and didn't waste the walk inventing one."},
+            {t:"p", x:"She spent most of the rest of the walk on the only thing that kept her hands from shaking again — turning the Rent over, looking for the one correction that explained the whole failure instead of ten separate ones. A Rent that didn't feed. A Marking that took both eyes instead of one. Whatever this was, it hadn't behaved like the thing everyone described secondhand at the collection post — which meant either the stories were wrong, or she wasn't the ordinary case the stories were describing. She turned that thought over for the better part of an hour and didn't like either answer enough to settle on it. Somewhere in that hour her stomach turned over too, once, sharply, and she stopped long enough to be sick at the path's edge, methodically, the way she did everything else that night."},
+            {t:"p", x:"By the time the valley opened out below her, grey was already climbing the eastern ridgeline, thinning the dark enough to see smoke rising from chimneys that shouldn't have been lit yet. A dog was barking somewhere near the collection post, the sustained, unhappy bark of an animal that had been at it for a while and wasn't going to stop on its own. Another answered it further off, then a third, until the barking wasn't coming from one direction anymore but several, overlapping, none of them settling. She noted this the way she noted weather — information, not yet meaning — and kept walking."},
+            {t:"p", x:"The bracketed text came back as she reached the first fence line, unprompted, sharper this time, arriving in the same wrong place behind her eyes as before:"},
+            {t:"sys", x:["[ABILITY EXPRESSION DETECTED.]","[CATEGORY: —]","[RECALCULATING.]","[BOUNDARY INTERACTION: ILLEGAL STATE.]"]},
+            {t:"p", x:"She stopped walking. Read it three times. *Illegal* sat wrong in her chest and stayed there — she couldn't tell if it meant she'd broken a law or broken a fact, didn't have the schooling to know whether those were even different things, and there was nothing useful to do with the not-knowing except keep walking. So she did."},
+            {t:"p", x:"The collection post's lamp was lit despite the hour, and the man who kept it — she knew him only as Old Tetsu's nephew, the one who'd taken the post over two winters back — was already standing in the doorway when she came up the track, which told her the dog hadn't been barking at nothing. He had a lantern raised and an expression already arranging itself for whatever bad news a charcoal-burner descending before dawn usually meant. A burn gone wrong. An injury. A body."},
+            {t:"p", x:"“There's a Rent,” she said, before he could ask, because that was the report that mattered and she wanted it said plainly before anything else complicated it. “Opened on my burn site sometime past midnight. It didn't feed anything through — it just sat there, and then it closed on its own, and then—”"},
+            {t:"p", x:"She got that far and stopped, because he wasn't listening anymore. The lantern had come up another few inches, and his face had gone through surprise and out the other side into something closer to the way a man looks at a sound he can't place, searching her face — not her words, her face — with an attention that had nothing to do with Rents at all."},
+            {t:"p", x:"“Your eyes,” he said. Not a question."},
+            {t:"p", x:"She hadn't seen them. There'd been no water still enough on the descent, no reason to look, and it hadn't occurred to her — a Rent was the thing that had happened, a Rent was what needed reporting, and she had spent the entire walk down composing that report in her head the way she'd compose an account of a bad burn for a buyer, plainly, in order, leading with the facts that mattered. She had spent four hours certain the important thing was what had come out of the mountain."},
+            {t:"p", x:"Behind Tetsu's nephew, a second lamp came alight in a window, and a woman's voice called something too indistinct to catch, and somewhere further down the row a door opened that hadn't needed to open yet. A third lamp. A fourth. The dog had stopped barking at last, which she noticed only because its silence, too, had turned into something other people were paying attention to — heads turning at doorways, one man half-dressed and not caring, a child pulled back by the wrist before she could get past her own threshold."},
+            {t:"p", x:"Kasane stood at the collection post's step with a report about the mountain still half out of her mouth, and watched an entire row of doors open toward her one by one, nobody in any of them looking past her shoulder at the ridge."}
+          ]
+        },
+        {
+          id: 2,
+          movement: "Movement II — Classification",
+          title: "Chapter Two",
+          blocks: [
+            {t:"p", x:"Nobody at the collection post knew what to do with her, and it showed in how long it took anyone to do anything."},
+            {t:"p", x:"For a while it was just the doorway — Tetsu's nephew still holding the lantern he'd forgotten to lower, a woman from two houses down asking questions nobody answered, a boy sent running somewhere without anyone actually telling him where. Kasane sat where she was told to sit, on the collection post's single bench, and let them look. Her legs had stopped being willing to carry her anywhere else. She was aware, distantly, that this was its own kind of report — that not fighting the staring probably told them something, though she couldn't have said what, and was too tired to work it out."},
+            {t:"p", x:"Someone put a cup of water in her hands at some point. She never saw who. She drank it because her mouth was still dry the way it had been on the mountain, and because holding something with a shape and a weight gave her hands a job that wasn't shaking. Tetsu's nephew hovered near the doorway without approaching, the lantern finally set down but still lit, useless now that the sky outside had gone the ordinary grey of an overcast morning. He asked her, once, quietly, whether she wanted to sit somewhere with a door that closed, and she said yes before she'd finished deciding whether the question was kindness or the same wariness as everyone else's, dressed better."},
+            {t:"p", x:"It was past midmorning before anyone arrived who seemed to know what came next. Kasane heard her before she saw her — an even, unhurried footstep on the packed dirt outside, no urgency in it at all, which was itself strange given how the rest of the morning had gone. The woman who came through the door was younger than Kasane expected, dressed plainly enough that nothing about her clothing announced anything, carrying a flat lacquered case under one arm the way another woman might carry market goods. She looked at the room once — the crowd at the door, Tetsu's nephew's lantern, Kasane on the bench — and reorganized all of it without raising her voice."},
+            {t:"p", x:"“Out,” she said, to the doorway in general. “Whoever isn't the keeper or the burner.”"},
+            {t:"p", x:"The doorway emptied slower than the word suggested it should. She waited it out without repeating herself, which told Kasane something about her before anything else did: she didn't need to say things twice, and didn't intend to start now."},
+            {t:"p", x:"“Aya,” she said, once the room had thinned to the three of them. “Tsukishiro.” She didn't offer a rank or a title, and Kasane understood, without being told, that this wasn't an oversight. “I handle information. Which is what you currently are, whether either of us likes that or not.”"},
+            {t:"p", x:"She set the lacquered case down on the collection post's single table and opened it without ceremony — paper, a brush, an ink stone already prepared, as if she'd wet it on the walk over and known she'd need it before she arrived. Her hands were quick and sure over the case's contents and stained dark at the fingertips in a way that had nothing to do with labor. Kasane noticed that the way she noticed most things about hands, out of habit rather than judgment: here was someone who worked with paper and never with wood, never split anything, never carried anything heavier than a case built for exactly this conversation, and would probably find the observation useless if Kasane said it aloud, so she didn't."},
+            {t:"p", x:"“They'll want the room back for actual business by afternoon,” Aya said. “So we'll use what we have.”"},
+            {t:"br"},
+            {t:"p", x:"What they had was Tetsu's nephew's back room, a narrow space used for grain disputes and boundary complaints, with a low table, two cushions worn thin in the middle, and a single paper screen that let in more light than warmth. Aya knelt on one side of the table with the brush already in hand. Kasane took the other side because it seemed to be where she was meant to sit, and because her knees had stopped objecting to any particular position several hours ago."},
+            {t:"p", x:"“Start from before you noticed anything,” Aya said. “Not from the Rent. From before.”"},
+            {t:"p", x:"Kasane told her about the vent. It felt like an absurd place to begin — a woman with ink-stained fingers and a case built for exactly this conversation, asking about a smoking flue — but Aya wrote it down without any change in her face, and Kasane understood, somewhere under the exhaustion, that this was the point. She was being asked to hand over the ordinary parts too, not just the impossible ones, and whatever this woman was building, it needed both."},
+            {t:"p", x:"She kept going. The quiet that wasn't the right kind of quiet. The doubled shadow. The four steps, and the line in the mist she still didn't have a name for, wet ground giving way to dry so cleanly she'd wanted to check it with her hand and hadn't had the chance."},
+            {t:"p", x:"“Did you touch anything,” Aya asked, not looking up. “The mist. The line. The ground on either side of it.”"},
+            {t:"p", x:"“No.”"},
+            {t:"p", x:"“Anything at all. The hatchet counts.”"},
+            {t:"p", x:"Kasane thought about it properly before answering, because the question deserved that much. “It came up. It didn't touch anything before the rest of it happened.” She paused. “After — I don't know. I was on one knee for a while. I might have set a hand down.”"},
+            {t:"p", x:"Aya wrote that too, in fewer strokes than the rest, which Kasane read as the difference between a fact and a possibility."},
+            {t:"p", x:"“You said pressure. Both sides at once.” Aya's brush moved fast and even through all of it, pausing only twice — once at the mist's edge, once at *both eyes* — pauses so brief Kasane would have missed them if she hadn't spent six years learning to read small changes in things that were mostly holding steady. “Describe it again. Slower.”"},
+            {t:"p", x:"Kasane did, and then, because the first description hadn't seemed to be enough and she wanted this finished cleanly, described the ears too, and the dry mouth, and the exact half-second the hillside had come apart into two disagreeing pictures before settling into one wrong one. She heard herself giving more than had been asked for and kept giving it anyway. Thoroughness had always worked for her before — a full account left nothing to guess at, and guessing was where problems came from. If she gave this woman everything there was to give, there'd be nothing left over for anyone to get wrong later, and the sooner it was all down on paper the sooner someone with actual authority could look at it and tell her what came next."},
+            {t:"p", x:"Aya let her run out on her own rather than stopping her, which Kasane didn't clock as a technique, only as patience."},
+            {t:"p", x:"“The bracketed text,” Aya said, once the room had gone quiet again. “Word for word, if you have it.”"},
+            {t:"p", x:"Kasane gave her that too. Watched the brush stop dead on *ILLEGAL STATE* and stay stopped for three full breaths before it moved again."},
+            {t:"p", x:"“Do you know what that means,” Kasane said. It wasn't quite a question. It came out flatter than she meant it to, tired past the point of shaping her voice the way she usually did."},
+            {t:"p", x:"“No,” Aya said. Nothing else. She didn't offer a guess, and didn't pretend the silence afterward was anything other than what it was."},
+            {t:"p", x:"She asked for the sequence a second time not long after — the Rent, then the pressure, then the text, in that order, confirmed — and Kasane understood without being told that this wasn't forgetfulness. It was the same thing a buyer did with a disputed weight: ask twice, compare the two answers, trust the version that didn't change."},
+            {t:"br"},
+            {t:"p", x:"Someone brought tea at some point, and neither of them acknowledged it as a break so much as a pause the questions happened to fall into. The paper screen had gone brighter since they'd started, the flat grey of morning thinning into something with more warmth in it. Kasane wrapped both hands around the cup and didn't drink from it for a while, just held the heat, the way she'd have held a tool she wasn't ready to use yet."},
+            {t:"p", x:"Somewhere in the second hour, Kasane asked about the burn."},
+            {t:"p", x:"It came out sideways, riding on the tail of an answer about how long she'd been on the mountain — she mentioned the season's charcoal, mostly to explain why she'd been alone up there in the first place, and then found she couldn't quite let the subject go. Three weeks of wood. The northeast corner either ruined outright or salvageable only if someone reached it before it caught. A season's income, more than half of it, sitting up the mountain deciding its own fate without her."},
+            {t:"p", x:"“Is there someone who looks at that,” Kasane said. “The burn. Whether it's a loss anyone accounts for.”"},
+            {t:"p", x:"Aya's brush didn't stop this time, which was its own kind of answer. “Not my office,” she said. “I can note it happened. I can't promise it goes anywhere.” A pause, not unkind, just accurate. “Most things a highland burner loses don't have an office that looks at them at all. That's not new because of last night.”"},
+            {t:"p", x:"“No,” Kasane agreed. “It isn't.” She'd known that before she asked. She'd asked anyway, the way she'd have checked a vent she already knew was closed, because checking cost nothing and not checking left a question sitting unanswered where she could still feel its shape."},
+            {t:"p", x:"Kasane hadn't expected comfort and didn't get any, and found, oddly, that the plain refusal to pretend otherwise sat better than a kinder lie would have."},
+            {t:"p", x:"“When does someone confirm what I am,” she asked instead, because that at least should have a real answer. “Rank. Registration. Whatever the word is.”"},
+            {t:"p", x:"“It's pending.”"},
+            {t:"p", x:"“Pending since this morning, or pending in general?”"},
+            {t:"p", x:"Something crossed Aya's face too briefly to name — not surprise, exactly, more the look of someone noting that a question had landed somewhere she hadn't expected it to reach. “That determination sits with more than one office,” she said. “It isn't mine to give you, and I won't tell you it's simpler than it is.”"},
+            {t:"p", x:"“Is that unusual. The delay.”"},
+            {t:"p", x:"“I'm not going to answer that either.” Aya set the brush down flat across the ink stone, deliberately, the closest thing to a full stop she'd made since sitting down. “Not because I'm hiding something interesting. Because I don't know yet, and a guess from me would sound like more than it is.”"},
+            {t:"p", x:"Kasane turned the first answer over anyway, the way she'd have turned over a smoke color she didn't trust. *More than one office* wasn't an answer. It was the shape of one — the outline of something with more than one interested party standing behind it, none of them named. She filed it next to the dry line in the mist. Another edge that shouldn't be there, on a different kind of ground."},
+            {t:"br"},
+            {t:"p", x:"The runner came in without knocking, which told Kasane more than the boy's face did — whatever he was carrying, it was urgent enough that whoever sent him had decided courtesy could wait. He was young, out of breath in a way that meant he'd run more than the short distance between buildings, and he crossed straight to Aya and put a folded paper in her hand without a word, then stood there, clearly under instruction to wait for a response."},
+            {t:"p", x:"Aya read it once, gave nothing away, read it a second time slower. When she set it down her writing hand had gone still on the table, brush resting, not moving to the ink. It was a small stillness, the kind Kasane would have missed entirely a day ago, before her eyes had learned to catch things they hadn't used to."},
+            {t:"p", x:"“Give me a moment,” she said to the boy, not to Kasane, and he went and stood by the door instead of leaving, which meant the answer was expected soon."},
+            {t:"p", x:"The questions that came after were the same shape as the ones before — procedural, evenly spaced, Aya's voice exactly as clipped as it had been an hour ago — but something underneath them had shifted register, the way a kiln's draw changes before you can name why. She asked Kasane to describe the mist's edge a third time, in different words than either previous account. She asked, for the first time, whether anyone else had been near the burn site in the last several days, and whether Kasane had told anyone besides Tetsu's nephew what had happened before Aya arrived. She asked how many people in the valley had actually seen Kasane's eyes since she'd come down — not just heard about them, seen them, and roughly how far word might already have traveled by now."},
+            {t:"p", x:"“Why does that matter,” Kasane said."},
+            {t:"p", x:"Aya considered the question long enough that Kasane understood she was deciding how much of an answer to give, not whether to give one."},
+            {t:"p", x:"“Because I no longer think I'm the only office that's going to ask you these questions today,” Aya said. “And I'd like to have finished mine first.”"},
+            {t:"p", x:"She didn't explain further. The runner was still waiting by the door, patient in the particular way of someone who'd been told exactly how long he was allowed to be patient for. Kasane — turning the sentence over the only way she knew how, looking for the one correction that made sense of it rather than a dozen separate guesses — found she didn't have anything close to enough information to answer it, and no clean way to ask Aya to give her more without admitting how much that not-knowing had already started to cost."}
+          ]
+        }
+      ]
+    }
+  };
+
+  var app = document.getElementById('app');
+  var tocList = document.getElementById('tocList');
+  var overlay = document.getElementById('overlay');
+  var storySub = document.getElementById('storySub');
+  var readerControls = document.getElementById('readerControls');
+
+  var state = { view: 'home', story: null, chapter: 0 };
+
+  function loadState() {
+    try {
+      var size = localStorage.getItem('shelf-size');
+      if (size) document.documentElement.style.setProperty('--reading-size', size + 'rem');
+    } catch (e) {}
+  }
+  function savedChapterFor(slug) {
+    try {
+      var v = localStorage.getItem('shelf-progress-' + slug);
+      return v !== null ? +v : 0;
+    } catch (e) { return 0; }
+  }
+  function saveChapterFor(slug, i) {
+    try { localStorage.setItem('shelf-progress-' + slug, String(i)); } catch (e) {}
+  }
+
+  function em(str) {
+    return str.replace(/\*(.+?)\*/g, '<em>$1</em>');
+  }
+
+  function goHome() {
+    state.view = 'home';
+    state.story = null;
+    readerControls.hidden = true;
+    storySub.textContent = '';
+    renderHome();
+  }
+
+  function openStory(slug) {
+    var story = STORIES[slug];
+    if (!story) return;
+    state.view = 'reader';
+    state.story = slug;
+    state.chapter = savedChapterFor(slug);
+    readerControls.hidden = false;
+    storySub.textContent = 'Reading — ' + story.label;
+    renderReader();
+  }
+
+  function renderHome() {
+    var story = STORIES.ura;
+    var progress = savedChapterFor(story.slug);
+    var started = progress > 0;
+    var cta = started
+      ? 'Continue — ' + story.chapters[progress].title + ' →'
+      : 'Start reading →';
+
+    var html = '<div class="home">';
+    html += '<div class="home-intro">';
+    html += '<span class="eyebrow">Private · just us</span>';
+    html += '<h1>The shelf</h1>';
+    html += '<p>Stories in progress, kept somewhere you can actually get back to from your phone.</p>';
+    html += '</div>';
+    html += '<div class="shelf">';
+    html += '<button class="story-card ura-theme" data-slug="' + story.slug + '">';
+    html += '<span class="card-label">Story</span>';
+    html += '<span class="card-title">' + story.label + '</span>';
+    html += '<span class="card-blurb">' + story.blurb + '</span>';
+    html += '<span class="card-meta">' + story.metaLine + ' · ' + story.chapters.length + ' chapters</span>';
+    html += '<span class="card-cta">' + cta + '</span>';
+    html += '</button>';
+    html += '</div>';
+    html += '<div class="shelf-empty-note">More stories land here as they’re written.</div>';
+    html += '</div>';
+    app.innerHTML = html;
+
+    app.querySelectorAll('.story-card').forEach(function (card) {
+      card.addEventListener('click', function () { openStory(card.getAttribute('data-slug')); });
+    });
+  }
+
+  function renderReader() {
+    var story = STORIES[state.story];
+    var ch = story.chapters[state.chapter];
+    var html = '<main class="reader ura-theme"><div class="reader-page"><article>';
+    html += '<div class="chapter-head"><span class="eyebrow">' + ch.movement + '</span><h1>' + ch.title + '</h1></div>';
+    html += '<div class="prose">';
+    ch.blocks.forEach(function (b) {
+      if (b.t === 'p') {
+        html += '<p>' + em(b.x) + '</p>';
+      } else if (b.t === 'br') {
+        html += '<div class="scene-break">◆ ◆ ◆</div>';
+      } else if (b.t === 'sys') {
+        html += '<div class="system-block">' + b.x.map(function (l) { return '<div>' + l + '</div>'; }).join('') + '</div>';
+      }
+    });
+    html += '</div>';
+    html += '<nav class="chapter-nav">';
+    html += '<button class="prev" ' + (state.chapter === 0 ? 'disabled' : '') + '>← Previous</button>';
+    html += '<button class="next" ' + (state.chapter === story.chapters.length - 1 ? 'disabled' : '') + '>Next →</button>';
+    html += '</nav>';
+    html += '<div class="end-note">Working draft — ' + ch.title.toLowerCase() + ', ' + ch.movement.toLowerCase() + '.</div>';
+    html += '</article></div></main>';
+    app.innerHTML = html;
+
+    var prevBtn = app.querySelector('.prev');
+    var nextBtn = app.querySelector('.next');
+    if (prevBtn) prevBtn.addEventListener('click', function () { goToChapter(state.chapter - 1); });
+    if (nextBtn) nextBtn.addEventListener('click', function () { goToChapter(state.chapter + 1); });
+
+    renderToc();
+    saveChapterFor(state.story, state.chapter);
+    window.scrollTo(0, 0);
+  }
+
+  function renderToc() {
+    var story = STORIES[state.story];
+    tocList.innerHTML = '';
+    if (!story) return;
+    story.chapters.forEach(function (ch, i) {
+      var btn = document.createElement('button');
+      btn.className = 'toc-item';
+      btn.setAttribute('aria-current', i === state.chapter ? 'true' : 'false');
+      btn.innerHTML = '<span class="toc-movement">' + ch.movement + '</span><span class="toc-chap">' + ch.title + '</span>';
+      btn.addEventListener('click', function () { goToChapter(i); closeOverlay(); });
+      tocList.appendChild(btn);
+    });
+  }
+
+  function goToChapter(i) {
+    var story = STORIES[state.story];
+    if (!story || i < 0 || i >= story.chapters.length) return;
+    state.chapter = i;
+    renderReader();
+  }
+
+  function openOverlay() { if (state.view === 'reader') overlay.hidden = false; }
+  function closeOverlay() { overlay.hidden = true; }
+
+  document.getElementById('homeLink').addEventListener('click', function (e) { e.preventDefault(); goHome(); });
+  document.getElementById('contentsBtn').addEventListener('click', openOverlay);
+  document.getElementById('closeOverlay').addEventListener('click', closeOverlay);
+  overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
+
+  document.getElementById('sizeUp').addEventListener('click', function () { adjustSize(0.06); });
+  document.getElementById('sizeDown').addEventListener('click', function () { adjustSize(-0.06); });
+  function adjustSize(delta) {
+    var cur = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--reading-size')) || 1.09;
+    var next = Math.min(1.4, Math.max(0.85, cur + delta));
+    document.documentElement.style.setProperty('--reading-size', next.toFixed(2) + 'rem');
+    try { localStorage.setItem('shelf-size', next.toFixed(2)); } catch (e) {}
+  }
+
+  loadState();
+  goHome();
+})();
+</script>
+
+</body>
+</html>
