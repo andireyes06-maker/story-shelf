@@ -14,7 +14,7 @@
     --surface-border: #D9D9D2;
     --ink: #1E1E1B;
     --ink-soft: #68675E;
-    --ink-faint: #97968C;
+    --ink-faint: #6E6D64;
     --accent: #2E5F4E;
     --accent-soft: #2E5F4E1A;
     --line: #D9D9D2;
@@ -27,7 +27,7 @@
       --surface-border: #2C2E30;
       --ink: #E7E6E1;
       --ink-soft: #9C9B93;
-      --ink-faint: #6C6B64;
+      --ink-faint: #86847A;
       --accent: #5FAE93;
       --accent-soft: #5FAE9322;
       --line: #2C2E30;
@@ -40,7 +40,7 @@
     --surface-border: #2C2E30;
     --ink: #E7E6E1;
     --ink-soft: #9C9B93;
-    --ink-faint: #6C6B64;
+    --ink-faint: #86847A;
     --accent: #5FAE93;
     --accent-soft: #5FAE9322;
     --line: #2C2E30;
@@ -54,7 +54,7 @@
     --surface-border: #CBCFC2;
     --ink: #211F1B;
     --ink-soft: #5A574F;
-    --ink-faint: #8B8A80;
+    --ink-faint: #6E6B60;
     --accent: #9A4321;
     --accent-soft: #9A432122;
     --line: #CBCFC2;
@@ -67,7 +67,7 @@
       --surface-border: #33362F;
       --ink: #E9E5D9;
       --ink-soft: #ABA79A;
-      --ink-faint: #726F63;
+      --ink-faint: #928E7F;
       --accent: #DE8248;
       --accent-soft: #DE824822;
       --line: #33362F;
@@ -80,7 +80,7 @@
     --surface-border: #33362F;
     --ink: #E9E5D9;
     --ink-soft: #ABA79A;
-    --ink-faint: #726F63;
+    --ink-faint: #928E7F;
     --accent: #DE8248;
     --accent-soft: #DE824822;
     --line: #33362F;
@@ -204,7 +204,6 @@
     width: 100%;
     background: var(--ground);
     border: 1px solid var(--surface-border);
-    border-left: 4px solid var(--accent);
     border-radius: 6px;
     padding: 20px 20px 18px;
     box-shadow: var(--shadow);
@@ -1277,6 +1276,7 @@
   document.getElementById('contentsBtn').addEventListener('click', openOverlay);
   document.getElementById('closeOverlay').addEventListener('click', closeOverlay);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) closeOverlay(); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && !overlay.hidden) closeOverlay(); });
 
   document.getElementById('sizeUp').addEventListener('click', function () { adjustSize(0.06); });
   document.getElementById('sizeDown').addEventListener('click', function () { adjustSize(-0.06); });
