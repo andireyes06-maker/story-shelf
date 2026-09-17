@@ -212,6 +212,124 @@
 
 ---
 
+### Moritaka — Antagonist (Shirogane Gate-Lord)
+
+**Canon status:** 🟢 Approved. Late 50s, Shirogane Gate-Lord, **B-rank**, Marked.
+
+**Narrative function:** Personifies Shirogane's institutional interest — contain and classify (`Bible/01_WORLD_BIBLE.md` §12) — the way Aya personifies Tsukishiro's and Isato personifies Kuromori's. Gives an already-planned Movement III consequence (Chapter 8's autonomy restriction) a face rather than a faceless faction.
+
+**Independent life, this month, without Kasane's Marking:** Managing Shirogane's declining Gate-response readiness from inside the Clan's old-guard/pragmatist split (`Bible/01_WORLD_BIBLE.md` §12) — old-guard by genuine conviction, not just faction loyalty, and privately aware of how thin the pragmatists' patience is wearing after eleven Shinken-less years.
+
+**Competence:** Reading institutional risk before it escalates into open incident — a real, demonstrated skill, not a pretext.
+
+**Blind spot:** Conflates control with safety. Applies his genuine skill at spotting institutional risk to Kasane specifically and concludes that restricting her is what reduces the danger, missing that her ongoing cooperation — not any Clan's oversight — is what has actually been containing the risk so far.
+
+**Why Gate-Lord, not Warden:** Kuromori and Tsukishiro dispatched working-level specialists because their stakes (practical value, information) are routine casework, credibly delegated. Shirogane's stake is different in kind — for the oldest, most conservative Clan, anxious about its own relevance without a living Shinken, an unregistered anomaly reads as Clan-level political business, not administrative casework. Sending a Gate-Lord (B) signals the old guard is handling this at the top.
+
+**Relationship to Kasane:** Enters once the per-Clan pressure map goes on-page (Movement III), tasked with the question Shirogane cares about: how fast this can be brought under formal control.
+
+**What he wants from Kasane:** Not her destruction — her legibility. A fully restricted, fully documented quantity is an acceptable outcome to him; an autonomous unknown is not, regardless of her intentions or her record of cooperation.
+
+**What Kasane initially thinks about him:** The first person in the process whose stated goal is narrower and colder than "figure out what happened to me" — someone measuring her against a policy, not a case file.
+
+**What he misunderstands about Kasane:** Reads her calm competence as either performance or evidence she's more dangerous than she's shown — the same composure-as-mask error Aya makes (see her entry), pushed to a harder conclusion.
+
+**What Kasane misunderstands about him:** Reads him as reaching for power or personal cruelty. He's reaching for a repeat of something specific he's never named to anyone — a past instance, elsewhere, of a Clan leaving an anomaly unrestricted too long and paying for it.
+
+**Disagreement that survives growing respect:** He can come to recognize, without it changing his position, that she isn't acting in bad faith — and he can still be substantively right that unregulated, undocumented ability is genuinely dangerous in the abstract, even though restricting her isn't actually what reduces that danger. Neither side gets to be simply correct; this doesn't resolve just because either of them understands the other better.
+
+**Independent life/problem:** The old-guard/pragmatist split within Shirogane, and his own unstated fear of presiding over a repeat of a past failure.
+
+**Connections to other cast members:** Structural friction with Aya — her belief that documentation should exist collides with his belief in what documentation should be used to *justify*, sharpening her own live disagreement with Kasane (see her entry) rather than duplicating it. No direct prior relationship with Isato or Genzou; their paths cross only through Kasane's case.
+
+**Voice notes:** Formal, procedural, comfortable citing policy rather than opinion. Never raises his voice — pressure shows as increased precision and shorter sentences. Angry — goes more formal, not less. Afraid (rare) — the only cast member whose fear reads as a specific old memory intruding rather than a present-tense reaction.
+
+**Arc movement:** Starts as an institutional position with a face attached, escalates through Movement III to personally enact the autonomy-restriction consequence at its close. Possible end-direction — remains a genuine, unresolved obstacle rather than a redeemed or defeated antagonist; per the project's per-Clan design, he doesn't need to be right or wrong, only real.
+
+**Authority/knowledge limits:** Marked, Gate-Lord rank — real first-hand combat/Gate-response experience, though no more direct access to Stitch mechanics than any other Marked-but-not-Kasane observer (`Bible/03_MAGIC_AND_SYSTEM.md`).
+
+**First likely appearance:** Movement III (Chapter 5, when the per-Clan pressure map goes on-page), escalating through Chapter 8.
+
+**Open decisions:** The specific past incident behind his fear (identity, Clan, whether it's ever named on-page); whether he appears again after Movement III or remains a Movement III–specific pressure.
+
+---
+
+### Noe — Peer (unaffiliated, Black Mountain Belt)
+
+**Canon status:** 🟢 Approved. Early-to-mid 20s, Black Mountain Belt local, **E-rank (Traced)**, Marked.
+
+**Narrative function:** The one relationship in Kasane's Arc 1 cast with no authority gradient in either direction — every other recurring relationship processes, judges, assesses, or has an institutional claim on her. Noe doesn't.
+
+**Independent life, this month, without Kasane's Marking:** Working a low support role held for several years, stalled at Traced rank well past what competence alone would predict — a direct, lived instance of the world's own rule that support and information roles are chronically underranked. Managing an unrelated, ordinary problem of her own (a housing or debt situation tied to her stalled rank) that has nothing to do with Kasane and won't be solved by anything that happens to her.
+
+**Competence:** Knows how to actually last inside the system at low rank long-term — which offices to avoid, which promises don't get kept, how to keep a file thin on purpose.
+
+**Blind spot:** Has made peace with a ceiling by deciding not to want anything past it, and reflexively undersells how much worse a case can still get once real institutional attention — of the kind Kasane is now getting — is actually involved.
+
+**Relationship to Kasane:** A loose pre-Marking acquaintance — same charcoal country, both known through Genzou's supplier network, never close — that becomes an actual friendship only after Kasane's Marking, once they're both people the system keeps a file on.
+
+**What Kasane initially thinks about her:** Proof the system is survivable long-term.
+
+**What Noe misunderstands about Kasane:** Assumes Kasane's case will eventually settle into the same ordinary bureaucratic obscurity most Marked cases do, and has no real framework for how fast and how far this one is already moving.
+
+**What Kasane misunderstands about her:** Reads Noe's calm as evidence of a livable equilibrium. It's closer to resignation, arrived at the hard way, and it costs Noe something every time Kasane's case reminds her what she gave up wanting.
+
+**Disagreement that survives growing respect:** Noe thinks staying small and undocumented is the only real protection available at low rank; Kasane's whole situation is a case study in that protection failing anyway — neither fully persuades the other, because they're arguing from genuinely different exposure levels.
+
+**Independent life/problem:** Her own stalled rank and the ordinary debt/housing problem that comes with it, running whether or not Kasane's case exists.
+
+**Connections to other cast members:** Indirect tie to Genzou via his supplier network (see his entry). No direct relationship with Aya, Isato, Renji, or Suzu — enters Kasane's orbit independently of the institutional cast.
+
+**Voice notes:** Plain, unhurried, deflects seriousness with dry understatement. Angry — goes flatter and quieter, not louder. Afraid — over-explains ordinary logistics as a way of not discussing the actual fear.
+
+**Arc movement:** Starts as an easy, low-stakes friendship — the one relationship that doesn't cost Kasane anything to maintain. Possible tension point later in the Arc: Noe's own stalled situation could be helped by proximity to Kasane's now-prominent case, creating a real, uncomfortable question about whether either of them would ever use the other that way.
+
+**Authority/knowledge limits:** Marked, E-rank — genuine but limited first-hand Ura-adjacent experience; no political or institutional standing to leverage on Kasane's behalf.
+
+**First likely appearance:** Movement III or IV — present around the assessment/trials process as a fellow low-rank figure, never as one of its authorities.
+
+**Open decisions:** The specific nature of her stalled-rank problem (debt vs. housing vs. something else); whether the "proximity to a prominent case" tension point is used at all, and if so, how far.
+
+---
+
+### Shion — Ally (Karasu retainer)
+
+**Canon status:** 🟢 Approved. Late 20s, Karasu retainer, modest rank, unmarked.
+
+**Narrative function:** Gives Karasu's already-planned Movement V approach (`ARC_01_PLAN.md`, Chapter 12 — "a genuine, sympathetic, bounded approach") a face instead of a faceless institutional request. Activates the world bible's own unused candidate: "a younger Karasu retainer torn between institutional loyalty and personal desperation" (`Bible/01_WORLD_BIBLE.md` §12).
+
+**Independent life, this month, without Kasane's Marking:** Karasu is hollowed-out and watched — capable people transferring out or being quietly poached by other Clans, leadership isolated and defensive (`Bible/01_WORLD_BIBLE.md` §12). Shion stayed, and is caught in her Clan's live, unresolved internal dispute over whether to petition for outside investigation of their silent Gate (humiliating, an admission of helplessness) or keep insisting the Silence is temporary (which increasingly reads as denial even to sympathetic outsiders).
+
+**Competence:** Reads institutional desperation and denial accurately, in her own Clan and elsewhere, and doesn't flinch from naming it.
+
+**Blind spot:** Wants Kasane to be the answer Karasu needs badly enough that she risks overstating, to her own leadership, what a bounded Contact/Knowledge-limited examination (`Bible/03_MAGIC_AND_SYSTEM.md` §8.3) could actually resolve.
+
+**Relationship to Kasane:** Arrives via Aya's mediation — cross-Clan information-handling is Tsukishiro's specialty — carrying Karasu's bounded, specific request rather than a demand that Kasane visit the Silent Gate itself.
+
+**What Kasane initially thinks about her:** The first person in the process asking for help rather than answers about her.
+
+**What Shion misunderstands about Kasane:** Reads Kasane's willingness to examine the material at all as more hope than Kasane actually means to offer.
+
+**What Kasane misunderstands about her:** Initially reads Shion's desperation as purely institutional (Karasu needs a win) and underestimates how personal it is — Shion stayed when people she trained with left, and the Silence is not an abstraction to her.
+
+**Disagreement that survives growing respect:** Shion needs the examination to mean something; Kasane's honest "I can't resolve this, and I might make it worse by guessing" (`ARC_01_PLAN.md`, Chapter 12) is the correct, responsible answer and still isn't the answer Shion came for — unresolved regardless of how much they come to like each other.
+
+**Independent life/problem:** Karasu's internal petition-or-deny dispute, and her own decision to stay in a hollowed-out Clan post, both running independent of Kasane's case.
+
+**Connections to other cast members:** Channel is Aya (see her entry) — gives Aya's role real inter-Clan texture without changing her function. No prior relationship with Isato, Genzou, Renji, or Suzu.
+
+**Voice notes:** Direct, unornamented, noticeably careful around any word that could sound like a demand. Angry (rare, mostly at her own leadership, never at Kasane) — goes very quiet. Afraid — talks faster, not slower, the opposite of Aya's tell.
+
+**Arc movement:** Enters hopeful and bounded; the disappointment at Chapter 12's close ("Karasu's hope is disappointed, not resolved," `ARC_01_PLAN.md`) costs her something real inside her own Clan, not just personally. Possible end-direction — left open, consistent with the Karasu Silence itself staying unresolved (`Bible/04_CONTINUITY_AND_MYSTERIES.md`).
+
+**Authority/knowledge limits:** Unmarked. Does not know, and her leadership does not know, whether the Silence was a successful Erosion-interruption, a coincidence, or something worse (`Bible/04_CONTINUITY_AND_MYSTERIES.md`) — nothing about her characterization implies she or Karasu are close to that answer.
+
+**First likely appearance:** Movement V (Chapter 12), consistent with the existing plan.
+
+**Open decisions:** Whether she reappears after Chapter 12 or remains a Movement-V-specific presence; how explicitly her personal stake (people she trained with leaving) is shown on-page versus implied.
+
+---
+
 ## Proposed / Unnamed Roles
 
-None beyond the five above are currently proposed for Arc 1.
+None beyond the eight above are currently proposed for Arc 1.

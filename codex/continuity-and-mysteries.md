@@ -46,6 +46,8 @@ Blank template fields below use `Not yet established` rather than an invented an
 
 **Do not accidentally reveal:** Why the Erosion selects the specific weak points it does. Whether it is a symptom of the Ura's nature or an external actor exploiting a weakness in an otherwise-stable Older World — these two are incompatible and the saga should not need to pick one prematurely.
 
+**Seeded, undesigned thread — an Erosion-claimed champion:** ❓ Proposed, intentionally left loose. A person or being fully claimed by the Erosion could exist as its terrifying vanguard in some region — never the Erosion itself given a voice or a villain speech (that rule stays locked, `Bible/01_WORLD_BIBLE.md` — the Erosion deep expansion). Arc 1 should only ever gesture at this as dread in an offhand remark (someone going quiet about something, a unit that never came back, a name nobody wants to say twice) — no name, face, or region assigned yet. Do not design this figure fully until a specific future arc actually needs it; over-designing now risks boxing in whichever arc eventually wants it.
+
 ---
 
 ## The Karasu Silence
@@ -58,11 +60,11 @@ Blank template fields below use `Not yet established` rather than an invented an
 
 **What the reader may infer:** That the Karasu Silence is simultaneously (1) a bad omen per Yamashiro folk belief, (2) a "Silent"-category Gate under the Section 9 taxonomy (closed unexpectedly, without full resolution, leaving an ambiguous aftermath), and (3) a possible successful Erosion-interruption — meaning interruption, not necessarily defeat, may be a real and demonstrated capability.
 
-**Author truth, if established:** Not yet established. All three threads should stay simultaneously plausible until the story is ready to commit to one.
+**Author truth, if established:** 🟢 **Adopted (author-only, unrevealed):** Thread (3) is true. Long before Arc 1, a genuinely ancient, immensely powerful entity — regionally mythologized as **"the Unfallen"** (`Bible/01_WORLD_BIBLE.md`, Karasu section) — intercepted a major weak-point manifestation of the Erosion at what's now Karasu's territory. Neither side was defeated; per the already-locked working hypothesis that interruption, not defeat, is a real demonstrated capability (`Bible/03_MAGIC_AND_SYSTEM.md` §11), the confrontation was sufficient to stop the Erosion cold at that point. Both were left dormant in the resulting dead zone — this dormancy is what the Silence actually is. The Unfallen is not evil and not dead; it is a candidate for a future-arc ally of extraordinary power if it is ever reached and woken correctly, likely by someone other than Kasane in Arc 1's own timeframe. All three interpretive threads must continue to be written as simultaneously plausible in-world for a long time yet — this adoption changes nothing about what any character or the reader is permitted to know now.
 
-**Earliest acceptable reveal:** A strong candidate for a Yamashiro arc climax or a later convergence beat — not before.
+**Earliest acceptable reveal:** Unchanged and, if anything, pushed later — a strong candidate for a much later arc's climax or convergence beat, well past Arc 1. Karasu's own leadership still does not know the truth and should not be written as suspecting this specific answer over the other two.
 
-**Do not accidentally reveal:** Whether Karasu's silence was a successful interruption, a coincidence, or something worse.
+**Do not accidentally reveal:** Whether Karasu's silence was a successful interruption, a coincidence, or something worse. Now additionally: the Unfallen's existence, nature, location, or survival — no character may treat the Unfallen legend as anything but unverified regional folklore for the foreseeable saga.
 
 ---
 
