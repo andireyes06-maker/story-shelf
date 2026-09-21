@@ -1,4 +1,4 @@
-# ARC 1 (YAMASHIRO) — PLAN
+# ARC 1: THE SHAPE OF AN ARGUMENT (YAMASHIRO) — PLAN
 
 **Canon-status legend:** 🔒 LOCKED CANON · 🟢 EXPANDED CANON · 🟡 WORKING HYPOTHESIS · 🔵 IN-WORLD BELIEF · ⚪ OPEN MYSTERY · ❓ DEVELOPMENT QUESTION / PROPOSAL. Full definitions in `00_PROJECT_INDEX.md`. Lower-authority material never silently overrides higher-authority material.
 

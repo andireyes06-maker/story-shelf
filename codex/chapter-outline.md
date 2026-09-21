@@ -1,4 +1,4 @@
-# ARC 1 (YAMASHIRO) — CHAPTER OUTLINE
+# ARC 1: THE SHAPE OF AN ARGUMENT (YAMASHIRO) — CHAPTER OUTLINE
 
 **Canon-status legend:** 🔒 LOCKED CANON · 🟢 EXPANDED CANON · 🟡 WORKING HYPOTHESIS · 🔵 IN-WORLD BELIEF · ⚪ OPEN MYSTERY · ❓ DEVELOPMENT QUESTION / PROPOSAL. Full definitions in `00_PROJECT_INDEX.md`. Lower-authority material never silently overrides higher-authority material.
 
@@ -107,7 +107,7 @@ Fields, in order: **POV / location / time** → **opening image** → **immediat
 
 ## Populated Chapter Slot
 
-## Chapter 1 — [Working Title Not Yet Chosen]
+## Chapter 1 — What Came Down the Mountain
 
 **Movement:** Movement I — The Wrong Eyes.
 
