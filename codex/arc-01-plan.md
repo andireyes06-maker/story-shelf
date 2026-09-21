@@ -157,9 +157,9 @@ Fill only from existing material. Where a field is not yet decided, it reads `�
 
 **Purpose:** Kasane is forced into a moment where using the Stitch openly forecloses anonymity — and uses it anyway, not from accepting destiny but because not using it produces an outcome she can't accept. This is the Arc 1 climax beat.
 
-**Kasane's state entering:** At the Rite itself, watched, restricted, with every faction present at once.
+**Kasane's state entering:** At the Rite itself, watched, restricted, with every faction present at once. **Location (locked): Shirogane Castle-City** (`Bible/01_WORLD_BIBLE.md` §12.12), Kasane's first trip beyond the Black Mountain Belt and Kurokawa's commercial scale into Yamashiro's actual political capital.
 
-**Primary pressure:** The unresolved Consecration question, seeded in Movements III and V via Suzu, comes to a head: a committee (a Clan-appointed cleric, Aya, and Suzu) attempts a modified consecration procedure for Kasane's registration, built on assumptions never tested against an anomaly like hers.
+**Primary pressure:** The unresolved Consecration question, seeded in Movements III and V via Suzu, comes to a head: a committee (a Clan-appointed cleric, Aya, and Suzu) attempts a modified consecration procedure for Kasane's registration, built on assumptions never tested against an anomaly like hers. ❓ Proposed site: the Consecration Shrine's ceremonial gate-frame (`Bible/01_WORLD_BIBLE.md` §12.12), already seeded as a plausible, unverified carrier of Ura significance per §12.1's standing rule.
 
 **Institutional pressure:** A genuinely well-intentioned, rational institutional attempt, not incompetence — it goes wrong because nobody could have known this specific site's Ura-significance in advance (`Bible/01_WORLD_BIBLE.md` §12.1).
 

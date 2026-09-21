@@ -14,6 +14,8 @@
 
 **Narrative function:** The strongest connection to Kasane's ordinary life before Chapter 1, and the site of her Arc 1 intellectual-flaw failure (see below).
 
+**Romance:** 🟢 Explicitly not proposed (author direction, post–Arc 1 review; Kasane's romantic interest is Noe, see her entry). The warmth built across Chapters 4, 6–7, 11, and 17–19 is devoted platonic friendship and business loyalty, not romantic feeling on either side. Chapter 19's homecoming was revised to make this plain rather than ambiguous.
+
 **Independent life, this month, without Kasane's Marking:** Negotiating a multi-season supply contract with a Sword Provinces forge-house ahead of Rite-driven demand, protecting his margin against a cheaper rival buyer who's been undercutting him for two seasons. Responsible for a small transport crew and several other highland suppliers' credit.
 
 **Competence:** Reads buyers, market timing, and multi-party negotiation better than Kasane — specifically, he understands how rumor moves through trade networks faster than she, isolated on her mountain, would expect. A domain where he is straightforwardly right and she is wrong.
@@ -282,13 +284,15 @@
 
 **Voice notes:** Plain, unhurried, deflects seriousness with dry understatement. Angry — goes flatter and quieter, not louder. Afraid — over-explains ordinary logistics as a way of not discussing the actual fear.
 
-**Arc movement:** Starts as an easy, low-stakes friendship — the one relationship that doesn't cost Kasane anything to maintain. Possible tension point later in the Arc: Noe's own stalled situation could be helped by proximity to Kasane's now-prominent case, creating a real, uncomfortable question about whether either of them would ever use the other that way.
+**Arc movement:** Starts as an easy, low-stakes friendship — the one relationship that doesn't cost Kasane anything to maintain — and, per author direction after Arc 1's completion, is Kasane's actual romantic interest, seeded but deliberately unresolved by Arc 1's close (Chapter 11's introduction, referenced again in Chapter 19's closing inventory). Possible tension point later: Noe's own stalled situation could be helped by proximity to Kasane's now-prominent case, creating a real, uncomfortable question about whether either of them would ever use the other that way — a question with added weight once the relationship is also personal, not just a friendship.
+
+**Romance:** 🟢 Proposed and approved (author direction, post–Arc 1 review). Kasane's romantic interest going forward. Deliberately unresolved within Arc 1 itself, both because the introduction is late (Chapter 11) and because the plan's own discipline favors earned, unhurried development over a quick resolution. Genzou's warmth toward Kasane is retroactively platonic, devoted friendship and business loyalty, not romantic; Chapters 11, 17–19 were revised accordingly.
 
 **Authority/knowledge limits:** Marked, E-rank — genuine but limited first-hand Ura-adjacent experience; no political or institutional standing to leverage on Kasane's behalf.
 
-**First likely appearance:** Movement III or IV — present around the assessment/trials process as a fellow low-rank figure, never as one of its authorities.
+**First likely appearance:** Movement V, Chapter 11 (retroactively added after Arc 1's initial draft, during the whole-arc review).
 
-**Open decisions:** The specific nature of her stalled-rank problem (debt vs. housing vs. something else); whether the "proximity to a prominent case" tension point is used at all, and if so, how far.
+**Open decisions:** The specific nature of her stalled-rank problem (debt vs. housing vs. something else); whether the "proximity to a prominent case" tension point is used at all, and if so, how far; pacing and shape of the romance's development in Arc 2 or later chapters.
 
 ---
 

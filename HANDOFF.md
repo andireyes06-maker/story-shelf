@@ -12,7 +12,7 @@
 
 A small private "library" site, built because the author didn't want to keep reading draft chapters as a Claude Artifact and wanted something of their own on GitHub Pages instead. Two things live on it:
 
-1. **Story chapters** — currently just The Ura, Chapters One through Eight, kept in sync with `Story/Arc_01_Yamashiro/CHXXX_DRAFT.md` in the main project.
+1. **Story chapters** — currently just The Ura, Chapters One through Nineteen, kept in sync with `Story/Arc_01_Yamashiro/CHXXX_DRAFT.md` in the main project.
 2. **A Codex** — 11 reference documents (World Bible, Characters, Magic & System, Continuity & Mysteries, Craft Rulebook, Saga Architecture, Arc 1 Plan/Cast, Chapter Outline, Prompting Rules), synced from the actual project files rather than hand-copied.
 
 It's one file, `index.html` — no build step, no framework, no `node_modules`. Deploys by pushing to `main`; GitHub Pages serves it directly.
@@ -79,6 +79,6 @@ Then commit, push, and give GitHub Pages ~15–20 seconds before checking the li
 
 ## Known Gaps / Next Things
 
-- Only Chapters 1–8 are on the site. The main project may already be further ahead — check `Story/Arc_01_Yamashiro/` for `CH009_DRAFT.md` and beyond before assuming this is current.
+- Chapters 1–19 are on the site. Check `Story/Arc_01_Yamashiro/` for newer drafts before assuming the shelf is current.
 - No mechanism yet for a second story on the shelf — the `STORIES` object and `renderHome()`'s card markup are both written for exactly one story right now. Generalizing to a `STORIES` map with N entries and a `.forEach` in `renderHome()` is straightforward whenever it's actually needed; not done preemptively.
 - `codex/*.md` can silently go stale if `scripts/sync_codex.py` isn't re-run after a Bible/Craft edit — there's no automation (e.g. a git hook or CI job) enforcing the sync. Worth adding if this becomes a recurring point of friction.

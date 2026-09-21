@@ -171,7 +171,7 @@ Fields, in order: **POV / location / time** → **opening image** → **immediat
 - **Movement V — Pressure.** 3 chapters.
   - **Chapter 11** — Background pressure. Rising regional Gate activity as ordinary economic/social texture (§11.13); Renji's internal-Akaishi appointment competition intensifies; Suzu's Consecration-prep question turns urgent as the Rite approaches.
   - **Chapter 12** — Karasu. The bounded, Contact/Knowledge-limited examination of Karasu-related material; Isato spends real personal capital — standing in his rival-commander competition — to permit even this limited engagement; disappointment, not resolution — the Karasu Silence stays exactly where `Bible/04_CONTINUITY_AND_MYSTERIES.md` leaves it.
-  - **Chapter 13** — Threshold. Registration pressure, Renji's stakes, Shirogane's impatience, Karasu's disappointment, and Kuromori's stretched resources are all simultaneously live, with no institutional slack left; arrival at the Rite's threshold, closing the movement.
+  - **Chapter 13** — Threshold. Registration pressure, Renji's stakes, Shirogane's impatience, Karasu's disappointment, and Kuromori's stretched resources are all simultaneously live, with no institutional slack left; travel to and arrival at Shirogane Castle-City (`Bible/01_WORLD_BIBLE.md` §12.12) for the Rite, closing the movement.
 
 - **Movement VI — Public Choice.** 3 chapters. Arc 1's climax.
   - **Chapter 14** — Buildup. At the Rite itself, watched, restricted, every faction present at once; the consecration committee (a Clan-appointed cleric, Aya, and Suzu) attempts a modified registration procedure built on assumptions never tested against an anomaly like Kasane's.
