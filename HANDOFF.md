@@ -12,8 +12,8 @@
 
 A small private "library" site, built because the author didn't want to keep reading draft chapters as a Claude Artifact and wanted something of their own on GitHub Pages instead. Two things live on it:
 
-1. **Story chapters** — currently just The Ura, Chapters One through Nineteen, kept in sync with `Story/Arc_01_Yamashiro/CHXXX_DRAFT.md` in the main project.
-2. **A Codex** — 11 reference documents (World Bible, Characters, Magic & System, Continuity & Mysteries, Craft Rulebook, Saga Architecture, Arc 1 Plan/Cast, Chapter Outline, Prompting Rules), synced from the actual project files rather than hand-copied.
+1. **Story chapters** — currently The Ura, all nineteen Arc 1 chapters and the first two Arc 2 chapters, kept in sync with the draft files in the main project.
+2. **A Codex** — 14 reference documents, including the four Bibles, craft and saga references, and the approved plans, casts, and chapter outlines for Arcs 1 and 2. They are synced from the actual project files rather than hand-copied.
 
 It's one file, `index.html` — no build step, no framework, no `node_modules`. Deploys by pushing to `main`; GitHub Pages serves it directly.
 
@@ -32,7 +32,9 @@ It's one file, `index.html` — no build step, no framework, no `node_modules`. 
 - `{t:"br"}` — a scene break (renders as `◆ ◆ ◆`).
 - `{t:"sys"}, x:[...]}` — a System-text panel (Chapter 1's `[MARKING CONFIRMED.]` etc.) — an array of bracket lines, rendered in a distinct monospace box. Only used where the source prose actually formats it as a fenced ` ``` ` block of bracket lines; a single italicized bracket phrase inline in prose (e.g. Chapter 3's `*[CONTACT: UNRESOLVED.]*`) should stay a normal `p` block instead — that distinction is intentional, matching how the source chapters format the two differently.
 
-**To add a new chapter:** open the relevant `CHXXX_DRAFT.md` in the main project, strip its title/revision-history preamble, convert straight dialogue quotes to curly, and append a new chapter object to `STORIES.ura.chapters` following the pattern above. Then run the syntax check before pushing (see "Before You Push," below) — it's caught real mistakes twice already.
+**To add an Arc 1 chapter:** open the relevant `CHXXX_DRAFT.md` in the main project, strip its title/revision-history preamble, convert straight dialogue quotes to curly, and append a new chapter object to `STORIES.ura.chapters` following the pattern above.
+
+**To sync drafted Arc 2 chapters:** update the explicit `CHAPTERS` list in `scripts/sync_arc2_chapters.py` when a new draft is approved for the Shelf, then run `python3 scripts/sync_arc2_chapters.py`. The script strips draft metadata, converts dialogue quotes, and replaces only the content between the Arc 2 markers in `index.html`. Run the syntax check before pushing.
 
 **Theming — this matters for adding a second story:** CSS custom properties are defined twice. `:root` holds neutral "chrome" tokens (the shelf, the header — Libre Franklin, muted green accent) shared by everything. `.ura-theme` *redefines the same token names* (Shippori Mincho, ash/ember palette) scoped to that class. `renderReader()` and the story card both add `class="ura-theme"` to pick up Ura's look; the shelf/header never does. **A second story should get its own scoped class** (e.g. `.newstory-theme`) with its own token values, following the exact same pattern — don't reuse `.ura-theme` for a different story's content, and don't theme the shared chrome (header, shelf background).
 
@@ -49,6 +51,7 @@ It's one file, `index.html` — no build step, no framework, no `node_modules`. 
 ```bash
 cd story-shelf
 python3 scripts/sync_codex.py
+python3 scripts/sync_arc2_chapters.py
 git add codex/ && git commit -m "Re-sync Codex" && git push
 ```
 
@@ -79,6 +82,6 @@ Then commit, push, and give GitHub Pages ~15–20 seconds before checking the li
 
 ## Known Gaps / Next Things
 
-- Chapters 1–19 are on the site. Check `Story/Arc_01_Yamashiro/` for newer drafts before assuming the shelf is current.
+- Arc 1 Chapters 1–19 and Arc 2 Chapters 1–2 are on the site. Check both arc folders in the source project for newer drafts before assuming the Shelf is current.
 - No mechanism yet for a second story on the shelf — the `STORIES` object and `renderHome()`'s card markup are both written for exactly one story right now. Generalizing to a `STORIES` map with N entries and a `.forEach` in `renderHome()` is straightforward whenever it's actually needed; not done preemptively.
 - `codex/*.md` can silently go stale if `scripts/sync_codex.py` isn't re-run after a Bible/Craft edit — there's no automation (e.g. a git hook or CI job) enforcing the sync. Worth adding if this becomes a recurring point of friction.

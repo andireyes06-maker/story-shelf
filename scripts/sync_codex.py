@@ -30,6 +30,9 @@ FILES = [
     ("Story/Arc_01_Yamashiro/ARC_01_PLAN.md", "arc-01-plan.md"),
     ("Story/Arc_01_Yamashiro/ARC_01_CAST.md", "arc-01-cast.md"),
     ("Story/Arc_01_Yamashiro/CHAPTER_OUTLINE.md", "chapter-outline.md"),
+    ("Story/Arc_02_Haejin/ARC_02_PLAN.md", "arc-02-plan.md"),
+    ("Story/Arc_02_Haejin/ARC_02_CAST.md", "arc-02-cast.md"),
+    ("Story/Arc_02_Haejin/CHAPTER_OUTLINE.md", "arc-02-chapter-outline.md"),
     ("CODEX_PROMPTING_RULES.md", "prompting-rules.md"),
     ("00_PROJECT_INDEX.md", "project-index.md"),
     # Deliberately excluded: Bible/handoff.md and AI_CONTEXT.md — both are
